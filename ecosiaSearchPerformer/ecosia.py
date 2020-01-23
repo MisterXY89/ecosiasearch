@@ -21,6 +21,7 @@ class Ecosia:
         self.rhGen = RequestHeaderGenerator()
         self.stGen = SearchTermGenerator()
         self.isTor = isTor
+        self.searches = 0
         if self.isTor:
             # this password needs to be set in your .env file
             # simply create a new file and paste the password you set
@@ -49,6 +50,8 @@ class Ecosia:
             print("Tor Option disabled")
             response = requests.get(url, headers = self.rhGen.getRandomRequestHeader())
 
-        print(f"Performed request to url: {url}, \nGot status code: {response.status_code}")
+        if int(response.status_code) == 200:
+            self.searches += 1
 
+        print(f"Performed request to url: {url}, \nGot status code: {response.status_code}")
         return response.status_code
